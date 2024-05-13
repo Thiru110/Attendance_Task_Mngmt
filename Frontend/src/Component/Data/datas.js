@@ -7,7 +7,7 @@ import { Link, NavLink, Navigate } from "react-router-dom";
 import ForwardIcon from "@mui/icons-material/Forward";
 import "./datas.css";
 import { useSelector } from "react-redux";
-import { fetchSingleData } from "../../HTTPHandler/api";
+import { fetchAllData, fetchSingleData } from "../../HTTPHandler/api";
 import AnimatedText from "../animatedText";
 
 const Datas = () => {
@@ -41,8 +41,9 @@ const Datas = () => {
   };
   // to fetch the all data for admin
   const fetchUserData = () => {
-    axios
-      .get("http://localhost:4023/alldatas")
+    fetchAllData(data)
+      // axios
+      // .get("http://localhost:4023/alldatas")
       .then((response) => {
         // console.log(response.data);
         setUserData(response.data);

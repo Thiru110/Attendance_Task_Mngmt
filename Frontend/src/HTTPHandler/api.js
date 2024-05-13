@@ -23,6 +23,15 @@ export const fetchSingleData = async (data) => {
     return [];
   }
 };
+export const fetchAllData = async (data) => {
+  try {
+    const response = await api.get("/alldatas");
+    return response;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
 
 export const loginUser = async (data) => {
   try {
