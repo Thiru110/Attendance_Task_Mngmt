@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-
-import axios from "axios";
-
 import { WiCloudDown } from "react-icons/wi";
 import { Link, NavLink, Navigate } from "react-router-dom";
 import ForwardIcon from "@mui/icons-material/Forward";
@@ -42,8 +39,6 @@ const Datas = () => {
   // to fetch the all data for admin
   const fetchUserData = () => {
     fetchAllData(data)
-      // axios
-      // .get("http://localhost:4023/alldatas")
       .then((response) => {
         // console.log(response.data);
         setUserData(response.data);
@@ -71,12 +66,6 @@ const Datas = () => {
     document.body.appendChild(link);
     link.click();
   };
-
-  // let tableBorder =
-  //   filteredUserData?.length > 0
-  //     ? "table-container:hover table-container"
-  //     : "table-container";
-
   return (
     <div
       style={{
@@ -96,7 +85,6 @@ const Datas = () => {
             alignItems: "center",
           }}
         >
-          {/* <h1 style={{animation:""}}>{data.RoleId == 1 ? "User Datas" : "Your Data"}</h1> */}
           <AnimatedText
             text={data.RoleId === 1 ? "USERDATA" : "YOURDATA"}
             delay={50}

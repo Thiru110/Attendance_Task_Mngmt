@@ -9,6 +9,7 @@ class ErrorMessage {
   static UserNotFound = "User not found";
   static DuplicateEmail = "This email is already registered";
   static FailedMail = "Failed to send email";
+  static MissingQuery = "Invalid Query strings";
 }
 
 module.exports = ErrorMessage;

@@ -47,57 +47,14 @@ app.use("/api-docs", swaggerui.serve, swaggerui.setup(swaggerDocument));
 // !  FETCH ALL
 app.use("/user/fetch", routePath);
 
-app.post("/attendance_app", (req, res) => {
-  const { Date, Time, Userid, Activity_type, Comments } = req.body;
+app.use("/attendance_app", routePath);
 
-  let sql = "";
-  let values = [];
+app.use("/alldatas", routePath);
 
-  // Determine the SQL query based on the activity type
-  switch (Activity_type) {
-    case "Punched In":
-    case "Punched Out":
-    case "lunchin":
-    case "lunchout":
-      sql =
-        "INSERT INTO time_table (Userid, Date, Time, Activity_type, Comments) VALUES (?, ?, ?, ?, ?)";
-      values = [Userid, Date, Time, Activity_type, Comments];
-      break;
-    case "breakin":
-    case "breakout":
-      sql =
-        "INSERT INTO time_table (Userid, Date, Time, Activity_type, Comments) VALUES (?, ?, ?, ?, ?)";
-      values = [Userid, Date, Time, Activity_type, Comments];
-      break;
-    default:
-      return res.status(400).send("Invalid activity type");
-  }
-
-  // Execute the SQL query
-  db.query(sql, values, (err, result) => {
-    if (err) {
-      console.error("Error inserting data:", err);
-      res.status(500).send("Error inserting data into database");
-    } else {
-      console.log("Data inserted successfully");
-      res.status(200).send("Data inserted successfully");
-    }
-  });
-});
-
-app.get("/alldatas", (req, res) => {
-  const sql = "SELECT * FROM time_table";
-  db.query(sql, (error, data) => {
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    } else {
-      return res.json(data);
-    }
-  });
-});
+app.use("/GetActivity", routePath);
 
 // !    FOR RESEST PASSWORD THROUGH THE LINK
-const port = 4023;
+const port = process.env.PORT || 4023;
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });

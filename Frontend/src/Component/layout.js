@@ -60,7 +60,7 @@ to {
   // };
 
   const handleLoginToggle = () => {
-    const activityType = isLoggedIn ? "Punched Out" : "Punched In";
+    const activityType = isLoggedIn ? "Time Out" : "Time In";
     isLoggedIn ? handleStop() : handleStart();
     // const messageText = isLoggedIn
     //   ? "You are successfully logged out!"
@@ -103,13 +103,15 @@ to {
   // messageText,
   const storeActivity = (activityType, commentText) => {
     const currentDate = new Date(); // Get current date and time
-    const month = currentDate.getMonth() + 1; // Get month (returns 0-indexed, so add 1)
-    const year = currentDate.getFullYear(); // Get full year
-    const date = currentDate.getDate(); // Get day of the month
-    const currentdate = `${month}/${date}/${year}`; // Format date as MM/DD/YYYY
-    const hours = currentDate.getHours(); // Get hours (0-23)
-    const minutes = currentDate.getMinutes(); // Get minutes (0-59)
-    const seconds = currentDate.getSeconds(); // Get seconds (0-59)
+
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const currentdate = `${year}-${month}-${day}`; // Format date as MM/DD/YYYY
+    console.log(currentdate);
+    const hours = currentDate.getHours().toString().padStart(2, "0"); // Get hours (0-23)
+    const minutes = currentDate.getMinutes().toString().padStart(2, "0"); // Get minutes (0-59)
+    const seconds = currentDate.getSeconds().toString().padStart(2, "0"); // Get seconds (0-59)
     const currentTime = `${hours}:${minutes}:${seconds}`; // Format time as HH:MM:SS
 
     const data = {
@@ -264,7 +266,7 @@ to {
                   onClick={handleLoginToggle}
                   disabled={isLunchIn || isBreakIn}
                 >
-                  {isLoggedIn ? "Punch Out" : "Punch In"}
+                  {isLoggedIn ? "Time Out" : "Time In"}
                 </Button>
                 {isLoggedIn && (
                   <>

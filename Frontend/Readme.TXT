@@ -42,3 +42,12 @@ authentication the token in CheckToken is a function that send the req to the en
 
 ///////////			summary
 login click panathum email check and password hashed compare if success jwt token generate and return to the client and response of axios is success set the token in local storage and navigate to main page
+
+
+
+time
+
+now its work properly 
+time can be calculated based onn the last (timein - now time) 
+if they are in timeout state time stop but it shows the time and calculated
+if they are not in time out state means the time will continue.

@@ -83,3 +83,16 @@ export const loginUserReset = async (data) => {
     console.log(error);
   }
 };
+
+export const getActivities = async (email, filter) => {
+  let filters = filter.map((x) => `'${x}'`).join(",");
+  try {
+    const response = await api.get(
+      `/GetActivity?Email=${email}&Filter=${filters}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

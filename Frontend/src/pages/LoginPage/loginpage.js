@@ -21,7 +21,7 @@ export const Loginpage = () => {
   const navigate = useNavigate();
   const onSubmit = (data) => {
     loginUser(data)
-      .then((res) => {
+      .then(async (res) => {
         console.log(res);
         if (res.Status === "Success") {
           toast.success("Get ready");

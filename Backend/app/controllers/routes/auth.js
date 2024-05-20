@@ -10,11 +10,90 @@ const ErrorMessage = require("../../../ErrorMessage");
 
 router.use(express.json());
 
+router.get("/GetActivity", (req, res) => {
+  const email = req.query.Email;
+  const filters = req.query.Filter;
+  // let filterString = filters.map((x) => `'${x}'`).join(",");
+  if (!email || !filters)
+    return res
+      .status(400)
+      .json(
+        new GenericResponse(
+          ResponseStatus.Failure,
+          ErrorMessage.MissingQuery,
+          null
+        )
+      );
+  const sql = `SELECT * FROM time_table WHERE Userid ='${email}'  AND Date = CURDATE() and Activity_type in (${filters})  ORDER BY Time`;
+  db.query(sql, (error, data) => {
+    if (error) {
+      return res
+        .status(400)
+        .json(new GenericResponse(ResponseStatus.Failure, error.message, null));
+    } else {
+      return res.json(new GenericResponse(ResponseStatus.Success, null, data));
+    }
+  });
+});
+
+router.get("/attendance_app", (req, res) => {
+  const sql = "SELECT * FROM time_table";
+  db.query(sql, (error, data) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    } else {
+      return res.json(data);
+    }
+  });
+});
+
+router.post("/attendance_app", (req, res) => {
+  const { Date, Time, Userid, Activity_type, Comments } = req.body;
+
+  let sql =
+    "INSERT INTO time_table (Userid, Date, Time, Activity_type, Comments) VALUES (?, ?, ?, ?, ?)";
+  //     values = [Userid, Date, Time, Activity_type, Comments];;
+  let values = [Userid, Date, Time, Activity_type, Comments];
+
+  const ActivityTypeList = [
+    "Time In",
+    "Time Out",
+    "lunchin",
+    "lunchout",
+    "breakin",
+    "breakout",
+  ];
+  if (!ActivityTypeList.includes(Activity_type))
+    return res.status(400).send("Invalid activity type");
+
+  // Execute the SQL query
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error("Error inserting data:", err);
+      res.status(500).send("Error inserting data into database");
+    } else {
+      console.log("Data inserted successfully");
+      res.status(200).send("Data inserted successfully");
+    }
+  });
+});
+
 router.get("/user/fetch", (req, res) => {
   const sql = "SELECT * FROM appuser";
   db.query(sql, (err, data) => {
     if (err) return res.json({ error: err.message });
     return res.json(data);
+  });
+});
+
+router.get("/alldatas", (req, res) => {
+  const sql = "SELECT * FROM time_table";
+  db.query(sql, (error, data) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    } else {
+      return res.json(data);
+    }
   });
 });
 
