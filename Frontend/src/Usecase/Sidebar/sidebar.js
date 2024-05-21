@@ -48,12 +48,12 @@ const Sidebar1 = () => {
               </span>
               <p className="navbar-item">Attendance</p>
             </button>
-            <button type="button" onClick={handleProjectManagementClick}>
+            {/* <button type="button" onClick={handleProjectManagementClick}>
               <span>
                 <LiaProjectDiagramSolid size={24} />
               </span>
               <p className="navbar-item">Project</p>
-            </button>
+            </button> */}
             {/* while clicking AttendanceManagement */}
             {selectedItem === "AttendanceManagement" && (
               <>

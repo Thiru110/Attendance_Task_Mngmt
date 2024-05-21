@@ -82,53 +82,6 @@ const Datas = () => {
     setSelectedDate(date);
   };
 
-  //! Function to handle the search button click
-
-  // const handleSearchByDate = async () => {
-  //   if (!selectedDate) {
-  //     toast.error("Please select a date");
-  //     return;
-  //   }
-
-  //   try {
-  //     const response = await dateFetch(selectedDate);
-  //     if (response.Status === "Success") {
-  //       toast.success("Successfully fetched the data");
-  //       // Handle the fetched data as needed
-  //     } else {
-  //       console.error("Error:", response.ErrMessage);
-  //       toast.error("No data recorded on that date");
-  //       // Handle the error as needed
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //     toast.error("No data recorded on that date");
-  //   }
-  // };
-  const handleSearchByDate = async () => {
-    if (!selectedDate) {
-      toast.error("please Select a date");
-    }
-    try {
-      const response = await axios.get(`http://localhost:4023/data`, {
-        date: selectedDate,
-        email: data.Email,
-      });
-      if (response.status === 200) {
-        const data = response.data;
-        toast.success("Successfuly fetched the data");
-        // console.log("Fetched Data:", data);
-        // Handle the fetched data as needed
-      } else {
-        console.error("Error:", response.data.message);
-        toast.error("No data recorded on that date");
-        // Handle the error as needed
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      toast.error("No data recorded on that date");
-    }
-  };
   return (
     <div
       style={{
@@ -184,20 +137,7 @@ const Datas = () => {
               </button>
             </div>
           ) : (
-            <div>
-              {/* for date fetch */}
-              <div className="date">
-                <label className="selectedDate">Select Date:</label>
-                <input
-                  type="date"
-                  onChange={handleDateChange}
-                  style={{ height: "30px" }}
-                />
-                <button onClick={handleSearchByDate} className="search">
-                  Search
-                </button>
-              </div>
-            </div>
+            <div>{/* for date fetch */}</div>
           )}
         </div>
 

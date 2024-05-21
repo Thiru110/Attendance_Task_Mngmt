@@ -97,36 +97,38 @@ router.get("/alldatas", (req, res) => {
   });
 });
 
-// New route to fetch data by date
-router.get("/data", (req, res) => {
-  const { date, email } = req.body;
+//! New route to fetch data by date this need to fix
+// router.get("/data", (req, res) => {
+//   const userEmail = req.query.email;
+//   const currentDate = req.query.date;
 
-  if (!date || !email) {
-    return res.status(400).json({ error: "Date and Email are required" });
-  }
-
-  const sql = "SELECT * FROM time_table WHERE Date = ? AND Email = ?";
-  db.query(sql, [date, email], (error, data) => {
-    if (error) {
-      return res.status(500).json({ error: error.message });
-    } else {
-      if (data.length > 0) {
-        return res.json({ Status: "Success", Data: data });
-      } else {
-        return res
-          .status(404)
-          .json({
-            Status: "Error",
-            ErrMessage: "No data found for the given date and email",
-          });
-      }
-    }
-  });
-});
+//   const sql = "SELECT * FROM time_table WHERE Userid=? AND DATE(Date)=?";
+//   db.query(sql, [userEmail, currentDate], (err, data) => {
+//     if (err) {
+//       return res
+//         .status(401)
+//         .json(
+//           new GenericResponse(
+//             ResponseStatus.Failure,
+//             ErrorMessage.SyntaxError,
+//             null
+//           )
+//         );
+//     }
+//     return res
+//       .status(200)
+//       .json(new GenericResponse(ResponseStatus.Success, null, data));
+//   });
+// });
 router.get("/singleData", (req, res) => {
   const userEmail = req.query.email;
-  const sql = "SELECT * FROM time_table WHERE Userid=?";
-  db.query(sql, userEmail, (err, data) => {
+  // Get the current date in YYYY-MM-DD format
+  const currentDate = new Date().toISOString().slice(0, 10);
+
+  const sql = "SELECT * FROM time_table WHERE Userid=? AND DATE(Date)=?";
+  // const sql = "SELECT * FROM time_table WHERE Userid=?";
+  // db.query(sql, [userEmail], (err, data) => {
+  db.query(sql, [userEmail, currentDate], (err, data) => {
     if (err) {
       return res
         .status(401)
