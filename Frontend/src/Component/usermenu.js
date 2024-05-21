@@ -59,12 +59,13 @@ function UserMenu() {
             <img width={170} height={70} src={pozentLogo} alt="Pozent" />
           </Box>
           <Typography color={"white"}>ATTENDANCE MANAGEMENT SYSTEM</Typography>
+
           <Link
             // to={data.RoleId === 2 ? getSingleData : "/allData"}
             to={"/allData"}
             className="li"
           >
-            Datas
+            LOGS
           </Link>
           <Box mr={3}>
             <Avatar onClick={handleOpen} style={{ cursor: "pointer" }}></Avatar>
@@ -125,7 +126,7 @@ function UserMenu() {
             <List>
               {data.RoleId === 2 ? (
                 <Box>
-                  <p style={{ color: "red" }}>Updated soon!!</p>
+                  <p style={{ color: "red" }}>Under Development Process!!</p>
                 </Box>
               ) : (
                 <ListItem button onClick={register}>
@@ -155,7 +156,17 @@ function UserMenu() {
             zIndex: 2,
           }}
         >
-          content
+          <p
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "left",
+              position: "absolute",
+              top: "30%",
+            }}
+          >
+            ©2024 Pozent. All Rights Reserved.
+          </p>
         </div>
       </div>
     </>

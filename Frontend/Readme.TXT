@@ -51,3 +51,7 @@ now its work properly
 time can be calculated based onn the last (timein - now time) 
 if they are in timeout state time stop but it shows the time and calculated
 if they are not in time out state means the time will continue.
+
+
+created one api name is getactiviry
+-->that api works based on that email onthat date how many records

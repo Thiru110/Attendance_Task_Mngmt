@@ -32,6 +32,17 @@ export const fetchAllData = async (data) => {
     return [];
   }
 };
+// !  fetch by date
+// export const dateFetch = async (data) => {
+//   try {
+//     const response = await api.get(`/data${data}`);
+//     console.log(response);
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//     throw new Error("Error fetching data");
+//   }
+// };
 
 export const loginUser = async (data) => {
   try {

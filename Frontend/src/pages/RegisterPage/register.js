@@ -9,7 +9,7 @@ import api from "../../HTTPHandler/axiosConfig";
 import { toast } from "react-toastify";
 // !here changes
 import { ForwardRounded, Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function Register() {
   const { register, handleSubmit, reset, formState } = useForm();
@@ -58,13 +58,26 @@ export default function Register() {
         placeItems: "center",
       }}
     >
-      <Link
+      <NavLink
+        to="/main"
+        style={{
+          textDecoration: "none",
+          position: "absolute",
+          top: "18%",
+          left: "86%",
+        }}
+      >
+        <Button variant="contained" href="#contained-buttons">
+          Back
+        </Button>
+      </NavLink>
+      {/* <Link
         style={{ position: "absolute", top: "18%", left: "86%" }}
         to={"/main"}
       >
         <span style={{ position: "relative", top: "-20px" }}> Back</span>
         <ForwardRounded style={{ width: "50px", height: "50px" }} />
-      </Link>
+      </Link> */}
       <div style={{ width: "500px", height: "400px" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box

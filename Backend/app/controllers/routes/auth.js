@@ -97,6 +97,32 @@ router.get("/alldatas", (req, res) => {
   });
 });
 
+// New route to fetch data by date
+router.get("/data", (req, res) => {
+  const { date, email } = req.body;
+
+  if (!date || !email) {
+    return res.status(400).json({ error: "Date and Email are required" });
+  }
+
+  const sql = "SELECT * FROM time_table WHERE Date = ? AND Email = ?";
+  db.query(sql, [date, email], (error, data) => {
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    } else {
+      if (data.length > 0) {
+        return res.json({ Status: "Success", Data: data });
+      } else {
+        return res
+          .status(404)
+          .json({
+            Status: "Error",
+            ErrMessage: "No data found for the given date and email",
+          });
+      }
+    }
+  });
+});
 router.get("/singleData", (req, res) => {
   const userEmail = req.query.email;
   const sql = "SELECT * FROM time_table WHERE Userid=?";
@@ -144,15 +170,6 @@ router.post("/user/forgot", (req, res) => {
       },
       Timeout: 20000,
     });
-
-    // const mailOptions = {
-    //   from: process.env.EMAIL_USERNAME, // Should be your email
-    //   to: data[0].Email, // Assuming data[0].Email contains the user's email
-    //   subject: "Reset your password",
-    //   text: `http://localhost:3000/reset/?token=${token}`, // Assuming data[0].id exists
-
-    // };
-
     const mailOptions = {
       from: process.env.EMAIL_USERNAME, // Should be your email
       to: data[0].Email, // The recipient's email address

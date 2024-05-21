@@ -7,11 +7,14 @@ import Timer from "../CommonComponenets/TimerComponent/timer";
 import { useDispatch, useSelector } from "react-redux";
 import { manageTimer } from "../Redux/timerSlice/ManageTimer";
 import { endTimer } from "../Redux/timerSlice/TimerSlice";
+import breakImg from "./rbreak.jpg";
+import lunch from "./rlunch.jpg";
 import {
   toggleBreak,
   toggleLunch,
 } from "../Redux/ctrlMngntSilce/breakManagementSlice";
 import { toast } from "react-toastify";
+import { Welcomemsg } from "./welcomemsg";
 
 const Layout = () => {
   // Define the animation
@@ -40,6 +43,8 @@ to {
     (state) => state.breakManagementSlice.isBreakIn
   );
   const interval = useSelector((state) => state.timerState.interval);
+  const [imageType, setImageType] = useState("main");
+
   // let stopTimer = useRef(null);
 
   const handleStart = () => {
@@ -62,9 +67,6 @@ to {
   const handleLoginToggle = () => {
     const activityType = isLoggedIn ? "Time Out" : "Time In";
     isLoggedIn ? handleStop() : handleStart();
-    // const messageText = isLoggedIn
-    //   ? "You are successfully logged out!"
-    //   : "You are successfully logged in!";
     const commentText = comment.trim(); // Trim the comment text
     if (commentText !== "") {
       storeActivity("comment", "comment stored successfully", commentText);
@@ -74,27 +76,18 @@ to {
     storeActivity(activityType, commentText);
   };
   const handleActivityToggle = () => {
-    // setIsBreakIn((prevState) => !prevState);
     dispatch(toggleBreak());
-
+    setImageType(isBreakIn ? "main" : "break");
     const activityType = isBreakIn ? "breakout" : "breakin";
-    // activityType == "breakin" ? handleStop() : handleStart();
-    // const messageText = isBreakIn
-    //   ? "You have successfully break in!"
-    //   : "You have successfully break out!";
     const commentText = comment.trim(); // Trim the comment text
     storeActivity(activityType, commentText);
     setComment("");
   };
 
   const handleLunchToggle = () => {
-    // Function to toggle lunch in/out
-    // setIsLunchIn((prevState) => !prevState);
     dispatch(toggleLunch());
+    setImageType(isLunchIn ? "main" : "lunch");
     const activityType = isLunchIn ? "lunchout" : "lunchin";
-    // const messageText = isLunchIn
-    //   ? "You have successfully taken lunch in!"
-    //   : "You have successfully taken lunch out!";
     const commentText = comment.trim(); // Trim the comment text
     storeActivity(activityType, commentText);
     setComment("");
@@ -180,7 +173,16 @@ to {
               animation: `${fadeIn} 2s ease-out forwards`,
             }}
           >
-            <img src={img} alt="" className="logo-wel" />
+            <Welcomemsg />
+            {imageType === "main" && (
+              <img src={img} alt="" className="logo-wel" />
+            )}
+            {imageType === "break" && (
+              <img src={breakImg} alt="" className="logo-wel" />
+            )}
+            {imageType === "lunch" && (
+              <img src={lunch} alt="" className="logo-wel" />
+            )}
           </Box>
         </Box>
         {/* Right container */}
@@ -295,20 +297,6 @@ to {
           </Box>
         </Box>
       </div>
-      {/* <Box className="message Box" position={"abso?lute"} bottom={77} right={10}> */}
-      {/* {message && (
-          <Box
-            bgcolor={"#4caf50"}
-            color={"white"}
-            padding={"10px"}
-            borderRadius={"20px"}
-            className="login-message"
-            sx={{ animation: "fadeIn 1s ease-in-out" }}
-          >
-            {message}
-          </Box>
-        )}
-      </Box> */}
     </div>
   );
 };

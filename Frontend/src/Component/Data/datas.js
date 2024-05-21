@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { WiCloudDown } from "react-icons/wi";
-import { Link, NavLink, Navigate } from "react-router-dom";
-import ForwardIcon from "@mui/icons-material/Forward";
+import { NavLink } from "react-router-dom";
 import "./datas.css";
 import { useSelector } from "react-redux";
-import { fetchAllData, fetchSingleData } from "../../HTTPHandler/api";
+import {
+  dateFetch,
+  fetchAllData,
+  fetchSingleData,
+} from "../../HTTPHandler/api";
 import AnimatedText from "../animatedText";
+import { Box, Button } from "@mui/material";
+import { toast } from "react-toastify";
+import api from "../../HTTPHandler/axiosConfig";
+import axios from "axios";
 
 const Datas = () => {
   const data = useSelector((state) => state.auth.user);
@@ -17,6 +24,9 @@ const Datas = () => {
 
   const [searchEmail, setSearchEmail] = useState(""); // State to store the search email
   console.log(data.RoleId);
+
+  // ! for Date fetch
+  const [selectedDate, setSelectedDate] = useState("");
   useEffect(() => {
     data.RoleId === 1 ? fetchUserData() : SingleData();
   }, []);
@@ -66,6 +76,59 @@ const Datas = () => {
     document.body.appendChild(link);
     link.click();
   };
+  // ! for date Fetch
+  const handleDateChange = (e) => {
+    const date = e.target.value; // Date in YYYY-MM-DD format
+    setSelectedDate(date);
+  };
+
+  //! Function to handle the search button click
+
+  // const handleSearchByDate = async () => {
+  //   if (!selectedDate) {
+  //     toast.error("Please select a date");
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await dateFetch(selectedDate);
+  //     if (response.Status === "Success") {
+  //       toast.success("Successfully fetched the data");
+  //       // Handle the fetched data as needed
+  //     } else {
+  //       console.error("Error:", response.ErrMessage);
+  //       toast.error("No data recorded on that date");
+  //       // Handle the error as needed
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //     toast.error("No data recorded on that date");
+  //   }
+  // };
+  const handleSearchByDate = async () => {
+    if (!selectedDate) {
+      toast.error("please Select a date");
+    }
+    try {
+      const response = await axios.get(`http://localhost:4023/data`, {
+        date: selectedDate,
+        email: data.Email,
+      });
+      if (response.status === 200) {
+        const data = response.data;
+        toast.success("Successfuly fetched the data");
+        // console.log("Fetched Data:", data);
+        // Handle the fetched data as needed
+      } else {
+        console.error("Error:", response.data.message);
+        toast.error("No data recorded on that date");
+        // Handle the error as needed
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error("No data recorded on that date");
+    }
+  };
   return (
     <div
       style={{
@@ -85,14 +148,15 @@ const Datas = () => {
             alignItems: "center",
           }}
         >
-          <AnimatedText
-            text={data.RoleId === 1 ? "USERDATA" : "YOURDATA"}
-            delay={50}
-          />
+          {/* <AnimatedText */}
+          <Box style={{ fontWeight: "800", fontSize: "30px" }}>
+            {data.RoleId === 1 ? "User Data" : "Time Logs"}
+          </Box>
 
           <NavLink to="/main" style={{ textDecoration: "none" }}>
-            <ForwardIcon />
-            back
+            <Button variant="contained" href="#contained-buttons">
+              Back
+            </Button>
           </NavLink>
         </div>
         <div
@@ -114,13 +178,26 @@ const Datas = () => {
               <button
                 onClick={handleDownload}
                 className="download-button"
-                style={{ position: "relative", left: "300px", top: "7px" }}
+                style={{ position: "relative", left: "271px", top: "20px" }}
               >
                 <WiCloudDown size={25} />
               </button>
             </div>
           ) : (
-            <div></div>
+            <div>
+              {/* for date fetch */}
+              <div className="date">
+                <label className="selectedDate">Select Date:</label>
+                <input
+                  type="date"
+                  onChange={handleDateChange}
+                  style={{ height: "30px" }}
+                />
+                <button onClick={handleSearchByDate} className="search">
+                  Search
+                </button>
+              </div>
+            </div>
           )}
         </div>
 

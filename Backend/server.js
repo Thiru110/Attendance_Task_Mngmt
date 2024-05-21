@@ -53,6 +53,8 @@ app.use("/alldatas", routePath);
 
 app.use("/GetActivity", routePath);
 
+app.use("/data", routePath);
+
 // !    FOR RESEST PASSWORD THROUGH THE LINK
 const port = process.env.PORT || 4023;
 app.listen(port, () => {
