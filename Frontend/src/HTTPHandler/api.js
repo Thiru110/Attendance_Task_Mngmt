@@ -13,6 +13,23 @@ export const forgotUser = async (data) => {
     return error.response.data;
   }
 };
+
+// !  for Regester Email
+export const regEmailSender = async (email, password) => {
+  try {
+    const response = await api.post("/user/reg", {
+      Email: email,
+      Password: password,
+    });
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    // return error.response.data;
+    return error;
+  }
+};
+
 export const fetchSingleData = async (data) => {
   try {
     const response = await api.get(`/singleData?email=${data}`);
@@ -32,18 +49,6 @@ export const fetchAllData = async (data) => {
     return [];
   }
 };
-// !  fetch by date
-// export const dateFetch = async (data) => {
-//   try {
-//     const response = await api.get(`/data${data}`);
-//     console.log(response);
-//     return response.data;
-//   } catch (error) {
-//     console.log(error);
-//     throw new Error("Error fetching data");
-//   }
-// };
-
 export const loginUser = async (data) => {
   try {
     const response = await api.post("/user/login", data);

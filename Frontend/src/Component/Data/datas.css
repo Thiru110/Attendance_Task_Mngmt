@@ -43,6 +43,7 @@
   border-radius: 4px; /* Add border-radius to the input field */
   box-sizing: border-box; /* Ensure padding and border are included in the input's total width */
   font-size: 16px; /* Set font size */
+  margin-bottom: 8px;
 }
 
 /* .search-container,.download-button {
@@ -65,6 +66,6 @@
 .date {
   border-radius: 10px;
 }
-.selectedDate {
+/* .selectedDate {
   margin-right: 30px;
-}
+} */

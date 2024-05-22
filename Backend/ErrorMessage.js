@@ -10,6 +10,7 @@ class ErrorMessage {
   static DuplicateEmail = "This email is already registered";
   static FailedMail = "Failed to send email";
   static MissingQuery = "Invalid Query strings";
+  static RequiredEmail = "Email and Password are required.";
 }
 
 module.exports = ErrorMessage;

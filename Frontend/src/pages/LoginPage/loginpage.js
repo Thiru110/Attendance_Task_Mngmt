@@ -21,7 +21,7 @@ export const Loginpage = () => {
   const navigate = useNavigate();
   const onSubmit = (data) => {
     loginUser(data)
-      .then(async (res) => {
+      .then((res) => {
         console.log(res);
         if (res.Status === "Success") {
           toast.success("Get ready");
@@ -49,15 +49,15 @@ export const Loginpage = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box
             display={"flex"}
-            height={350}
             flexDirection={"column"}
-            maxWidth={400}
+            maxWidth={450}
             justifyContent={"center"}
             alignItems={"center"}
             margin={"auto"}
             padding={5}
             bgcolor={"#eaf6f6"}
             borderRadius={9}
+            height={450}
             // boxShadow={"8px 8px 15px #ccc"}
             sx={{
               boxShadow: "0px 0px 10px #aaa",

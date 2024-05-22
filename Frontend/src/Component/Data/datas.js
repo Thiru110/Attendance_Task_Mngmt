@@ -3,16 +3,10 @@ import { WiCloudDown } from "react-icons/wi";
 import { NavLink } from "react-router-dom";
 import "./datas.css";
 import { useSelector } from "react-redux";
-import {
-  dateFetch,
-  fetchAllData,
-  fetchSingleData,
-} from "../../HTTPHandler/api";
-import AnimatedText from "../animatedText";
+import { fetchAllData, fetchSingleData } from "../../HTTPHandler/api";
 import { Box, Button } from "@mui/material";
-import { toast } from "react-toastify";
 import api from "../../HTTPHandler/axiosConfig";
-import axios from "axios";
+import { toast } from "react-toastify";
 
 const Datas = () => {
   const data = useSelector((state) => state.auth.user);
@@ -30,6 +24,18 @@ const Datas = () => {
   useEffect(() => {
     data.RoleId === 1 ? fetchUserData() : SingleData();
   }, []);
+  useEffect(() => {
+    if (userData.length > 0) {
+      if (searchEmail) {
+        const filteredData = userData.filter((user) =>
+          user.Userid.toLowerCase().includes(searchEmail.toLowerCase())
+        );
+        setFilteredUserData(filteredData);
+      } else {
+        setFilteredUserData(userData);
+      }
+    }
+  }, [searchEmail, userData]);
 
   // getting email from redux state and passing to the axios
 
@@ -66,20 +72,75 @@ const Datas = () => {
     setFilteredUserData(filteredData);
   };
   const handleDownload = () => {
+    const headers = ["User ID", "Date", "Time", "Activity Type", "Comments"];
+    const rows = filteredUserData.map((row) => [
+      row.Userid,
+      row.Date,
+      row.Time,
+      row.Activity_type,
+      row.Comments,
+    ]);
     const csvContent =
       "data:text/csv;charset=utf-8," +
-      userData.map((row) => Object.values(row).join(",")).join("\n");
+      [headers, ...rows].map((row) => row.join(",")).join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "data.csv");
+    link.setAttribute("download", "filtered_data.csv");
     document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
+  // const handleDownload = () => {
+  //   const csvContent =
+  //     "data:text/csv;charset=utf-8," +
+  //     userData.map((row) => Object.values(row).join(",")).join("\n");
+  //   const encodedUri = encodeURI(csvContent);
+  //   const link = document.createElement("a");
+  //   link.setAttribute("href", encodedUri);
+  //   link.setAttribute("download", "data.csv");
+  //   document.body.appendChild(link);
+  //   link.click();
+  // };
   // ! for date Fetch
   const handleDateChange = (e) => {
     const date = e.target.value; // Date in YYYY-MM-DD format
     setSelectedDate(date);
+  };
+
+  const handleSearchByDate = async () => {
+    if (!selectedDate) {
+      toast.error("please Select a date");
+      return;
+    }
+    try {
+      const response = await api.get("/data", {
+        params: {
+          date: selectedDate,
+          email: data.Email,
+        },
+      });
+      if (response.status === 200) {
+        const data = response.data;
+
+        if (data.Response && data.Response.length > 0) {
+          console.log(data);
+          setFilteredUserData(data.Response);
+          toast.success("Successfully fetched the data");
+        } else {
+          console.log("No data recorded on that date");
+          setFilteredUserData([]);
+          toast.error("No data recorded on that date");
+        }
+      } else {
+        console.error("Error:", response.data.message);
+        toast.error("No data recorded on that date");
+        // Handle the error as needed
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      toast.error("No data recorded on that date");
+    }
   };
 
   return (
@@ -114,7 +175,7 @@ const Datas = () => {
         </div>
         <div
           className="search-container"
-          style={{ width: "100%", textAlign: "center", paddingBottom: "20px" }}
+          style={{ width: "100%", textAlign: "center" }}
         >
           {data.RoleId === 1 ? (
             <div>
@@ -125,19 +186,35 @@ const Datas = () => {
                 onChange={(e) => setSearchEmail(e.target.value)}
               />
 
-              <button onClick={handleSearch} style={{ height: "30px" }}>
+              {/* <button onClick={handleSearch} style={{ height: "30px" }}>
                 Search
-              </button>
+              </button> */}
               <button
                 onClick={handleDownload}
                 className="download-button"
-                style={{ position: "relative", left: "271px", top: "20px" }}
+                style={{ position: "relative", left: "210px" }}
               >
                 <WiCloudDown size={25} />
               </button>
             </div>
           ) : (
-            <div>{/* for date fetch */}</div>
+            <div>
+              {/* for date fetch */}
+              <div className="date" style={{ width: "100%", height: "50px" }}>
+                <input
+                  type="date"
+                  onChange={handleDateChange}
+                  style={{
+                    width: "130px",
+                    height: "30px",
+                    paddingLeft: "10px",
+                  }}
+                />
+                <button onClick={handleSearchByDate} className="search">
+                  Search
+                </button>
+              </div>
+            </div>
           )}
         </div>
 

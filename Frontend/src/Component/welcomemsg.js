@@ -28,7 +28,7 @@ export const Welcomemsg = () => {
   ];
 
   const userEmail = useSelector((state) => state.auth.user.Email);
-  // new typing text
+
   const [text, setText] = useState(
     "Enhance productivity with our Attendance Management System!"
   );
@@ -56,6 +56,12 @@ export const Welcomemsg = () => {
   }, [text, 150]);
 
   return (
+    // <div>
+    //   <h1 style={{marginLeft:'50px'}}>{displayText}</h1>
+
+    //   <br></br>
+    //   {/* {userEmail} */}
+    // </div>
     <div
       style={{
         minHeight: "120px",

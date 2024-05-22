@@ -12,18 +12,23 @@ import UserMenu from "./Component/usermenu.js";
 import { ErrorPage } from "./pages/error/errorpage.js";
 import Admin from "./Usecase/Allpages/Admin.js";
 import Projectdetails from "./Usecase/projectdetails/project-details";
+import "./Usecase/projectdetails/project.css"
 import Task from "./Usecase/Allpages/Signup.js";
 import Sidebar1 from "./Usecase/Sidebar/sidebar";
 import "./Usecase/Title/title.css";
 import User from "./Usecase/Allpages/User.js";
-
+import Navbar from "./Usecase/Navbar/navbar.js";
+import "./Usecase/Navbar/navbar.css"
 import "./Usecase/Sidebar/sidebar.css";
-import "./Usecase/projectdetails/button.css";
 import "./Usecase/rightdiv/right-cont.css";
 import "./Usecase/Allpages/table.css";
 import "./Usecase/Allpages/user.css";
 import "./Usecase/Allpages/taskdetails.css";
 import { Home } from "./Usecase/Allpages/home.jsx";
+import Usecase from "./Usecase/Allpages/Usecase.js"
+import "./Usecase/Allpages/usecase.css"
+import { UsecaseReadEdit } from "./Usecase/Allpages/usecaseReadEdit.js";
+import "./Usecase/Allpages/usecaseReadEdit.css"
 import { ProtectedRoute } from "./CommonComponenets/ProtectedRoute/protectedRoute.jsx";
 
 function App() {
@@ -72,58 +77,83 @@ function App() {
                 </>
               }
             />
+            </Route>
+            <Route
+              path="/usecase"
+              element={
+                <>
+                  <Navbar />
+                  <Sidebar1 />
+                  <Usecase />
+                </>
+              }
+            />
+            <Route
+              path="/usecaseReadEdit"
+              element={
+                <>
+                  <Navbar />
+                  <Sidebar1 />
+                  <UsecaseReadEdit />
+                </>
+              }
+            />
 
             {/* forgot pass */}
 
             {/* from rishi */}
 
             <Route
-              path="home"
+              path="/home"
               element={
                 <>
+                  <Navbar />
                   <Sidebar1 />
                   <Home />
                 </>
               }
             />
             <Route
-              path="admin"
+              path="/admin"
               element={
                 <>
+                  <Navbar />
                   <Sidebar1 />
                   <Admin />
                 </>
               }
             />
             <Route
-              path="projectdetails"
+              path="/projectdetails"
               element={
                 <>
+                  <Navbar />
                   <Sidebar1 />
                   <Projectdetails />
                 </>
               }
             />
             <Route
-              path="user"
+              path="/user"
               element={
                 <>
+                  <Navbar />
                   <Sidebar1 />
                   <User />
                 </>
               }
             />
-
             <Route
-              path="task"
+              path="/task"
               element={
                 <>
+                  <Navbar />
                   <Sidebar1 />
                   <Task />
                 </>
               }
             />
-          </Route>
+          
           <Route
             path="*"
             element={
@@ -177,3 +207,4 @@ function App() {
 }
 
 export default App;
+
