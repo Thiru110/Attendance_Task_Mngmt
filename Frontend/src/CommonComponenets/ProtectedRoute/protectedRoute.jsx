@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { CheckToken, getActivities } from '../../HTTPHandler/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
